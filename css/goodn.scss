@@ -1,0 +1,69 @@
+$lgwidth:960px;
+$smwidth:768px;
+$count:12;
+$padding:15px;
+$margin:15px;
+$type:lg,sm,xs;
+
+@import url("goodnex.css");
+
+//混合宏
+@mixin every($nth-type){
+    .container{
+        height: auto;
+        margin:{
+            left: auto;
+            right: auto;
+        }
+        padding:{
+            left: $padding;
+            right: $padding;
+        }
+        box-sizing:border-box;
+        overflow: hidden;
+        
+        & > .row{
+            height: auto;
+            overflow: hidden;
+            box-sizing: border-box;
+            margin:{
+                left:-$margin;
+                right:-$margin;
+            }
+        }
+        
+        //循环
+        @for $i from 1 through 12{
+            & > .row > .col-#{$nth-type}-#{$i}{
+                float: left;
+                box-sizing: border-box;
+                padding:{
+                    left: $padding;
+                    right: $padding;
+                }
+                width:percentage(1/12)*$i;
+            }
+            
+                & > .row > .col-#{$nth-type}-offset-#{$i}{
+                margin-left:percentage(1/12)*$i;
+            }
+                 
+        }
+        
+        & > .row > .hidden-#{$nth-type}{
+            display: none !important;
+        }
+        
+    }
+}
+
+//调用
+@media screen and (min-width:$lgwidth){
+    @include every(nth($type,1));
+}
+@media screen and (min-width:$smwidth) and (max-width:$lgwidth){
+    @include every(nth($type,2));
+}
+@media screen and (max-width:$smwidth){
+    @include every(nth($type,3));
+}
